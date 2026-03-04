@@ -62,7 +62,7 @@ class KeyboardMonitor {
             options: .defaultTap,
             eventsOfInterest: eventMask,
             callback: globalKeyboardCallback,
-            userInfo: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque())
+            userInfo: UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         ) else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 self?.showAccessibilityAlert()
@@ -109,8 +109,9 @@ class KeyboardMonitor {
                         try? self?.noteWriterProvider().appendSelectedText(text)
                     }
                 }
+                return nil // consume only when not listening
             }
-            return nil // consume event
+            return event // pass through when listening
         }
 
         // Cmd+D — toggle listening

@@ -12,9 +12,11 @@ struct TextSelectionCapture {
         )
         guard focusResult == .success, let element = focusedElement else { return nil }
 
+        guard CFGetTypeID(element) == AXUIElementGetTypeID() else { return nil }
+        let axElement = element as! AXUIElement
         var selectedText: CFTypeRef?
         let textResult = AXUIElementCopyAttributeValue(
-            element as! AXUIElement,
+            axElement,
             kAXSelectedTextAttribute as CFString,
             &selectedText
         )

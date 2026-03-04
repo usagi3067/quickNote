@@ -56,7 +56,10 @@ public struct NoteWriter {
         let path = try ensureFileExists()
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
-        let content = "\n### \(formatter.string(from: Date())) ✂️\n> \(text)\n"
+        let lines = text.components(separatedBy: "\n")
+            .map { "> \($0)" }
+            .joined(separator: "\n")
+        let content = "\n### \(formatter.string(from: Date())) ✂️\n\(lines)\n"
         try appendText(content, to: path)
     }
 
