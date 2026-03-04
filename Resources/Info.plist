@@ -20,5 +20,9 @@
     <string>NSApplication</string>
     <key>NSAccessibilityUsageDescription</key>
     <string>QuickNote needs accessibility access to monitor keyboard input and read selected text.</string>
+    <key>NSInputMonitoringUsageDescription</key>
+    <string>QuickNote needs Input Monitoring access to capture keyboard input for recording.</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
 </dict>
 </plist>

@@ -13,6 +13,7 @@ mkdir -p "$APP_NAME.app/Contents/Resources"
 
 cp .build/release/QuickNote "$APP_NAME.app/Contents/MacOS/$APP_NAME"
 cp Resources/Info.plist "$APP_NAME.app/Contents/"
+printf 'APPL????' > "$APP_NAME.app/Contents/PkgInfo"
 
 echo "Signing..."
 codesign --sign - \
