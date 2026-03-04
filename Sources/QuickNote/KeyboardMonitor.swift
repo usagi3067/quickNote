@@ -104,8 +104,8 @@ class KeyboardMonitor {
         if cmdDown && shiftDown && keyCode == kVK_D {
             if !isListening {
                 DispatchQueue.main.async { [weak self] in
-                    let text = TextSelectionCapture().getSelectedText() ?? ""
-                    if !text.isEmpty {
+                    TextSelectionCapture().captureSelectedText { text in
+                        guard let text = text else { return }
                         try? self?.noteWriterProvider().appendSelectedText(text)
                     }
                 }
