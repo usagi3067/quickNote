@@ -79,14 +79,14 @@ class KeyboardMonitor {
 
     private func showAccessibilityAlert() {
         let alert = NSAlert()
-        alert.messageText = "Accessibility Permission Required"
-        alert.informativeText = "QuickNote needs Accessibility permission to monitor keyboard input.\n\nPlease go to System Settings → Privacy & Security → Accessibility and enable QuickNote, then restart the app."
+        alert.messageText = "需要两个权限才能运行"
+        alert.informativeText = "QuickNote 需要以下两个权限：\n\n1. 辅助功能（Accessibility）\n2. 输入监控（Input Monitoring）\n\n请前往：系统设置 → 隐私与安全性，分别在「辅助功能」和「输入监控」中启用 QuickNote，然后重启 App。"
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "Open System Settings")
-        alert.addButton(withTitle: "Quit")
+        alert.addButton(withTitle: "打开隐私设置")
+        alert.addButton(withTitle: "退出")
         let response = alert.runModal()
         if response == .alertFirstButtonReturn {
-            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!)
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy")!)
         }
         NSApp.terminate(nil)
     }
