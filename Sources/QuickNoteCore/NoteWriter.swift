@@ -1,5 +1,9 @@
 import Foundation
 
+public enum NoteWriterError: Error {
+    case encodingFailed
+}
+
 public struct NoteWriter {
     public let directory: URL
 
@@ -57,7 +61,7 @@ public struct NoteWriter {
     }
 
     private func appendText(_ text: String, to url: URL) throws {
-        guard let data = text.data(using: .utf8) else { return }
+        guard let data = text.data(using: .utf8) else { throw NoteWriterError.encodingFailed }
         let handle = try FileHandle(forWritingTo: url)
         defer { try? handle.close() }
         try handle.seekToEnd()

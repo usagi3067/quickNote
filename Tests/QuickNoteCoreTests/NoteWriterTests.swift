@@ -27,8 +27,11 @@ final class NoteWriterTests: XCTestCase {
     func testEnsureFileCreatesWithDateHeader() throws {
         let path = try writer.ensureFileExists()
         let content = try String(contentsOf: path, encoding: .utf8)
-        XCTAssertTrue(content.hasPrefix("# 20"))
-        XCTAssertTrue(content.contains("-"))
+        // Header should be exactly "# YYYY-MM-DD"
+        let lines = content.components(separatedBy: "\n")
+        XCTAssertEqual(lines.first?.count, "# 2026-03-04".count)
+        XCTAssertTrue(lines.first?.hasPrefix("# ") == true)
+        XCTAssertTrue(lines.first?.dropFirst(2).contains("-") == true)
     }
 
     func testEnsureFileDoesNotOverwriteExisting() throws {
@@ -52,7 +55,10 @@ final class NoteWriterTests: XCTestCase {
         _ = try writer.ensureFileExists()
         try writer.appendSessionHeader()
         let content = try String(contentsOf: writer.todayFilePath(), encoding: .utf8)
+        // Should contain "### HH:mm" pattern
         XCTAssertTrue(content.contains("### "))
+        let hasTimePattern = content.range(of: "### \\d{2}:\\d{2}", options: .regularExpression) != nil
+        XCTAssertTrue(hasTimePattern, "Session header should contain HH:mm timestamp")
     }
 
     func testAppendSelectedTextWritesBlockquote() throws {
